@@ -10,3 +10,11 @@
 - 按title搜索ticket
 
 按照这个想法，帮我生成详细的需求和设计文档，放在.specs/0001-spec.md文件中，输出为中文。
+
+## implementation plan
+
+按照./specs/0001-spec.md中的需求和设计文档，生成一个详细的实施计划，放在./specs/0002-implementation-plan.md文件中，输出为中文。
+
+## phased implementation
+
+按照./specs/0002-implementation-plan.md，完整实现这个项目的phase 1代码。
