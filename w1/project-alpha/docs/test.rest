@@ -1,0 +1,289 @@
+### Project Alpha API 测试文件
+### 使用 REST Client 扩展运行这些测试
+### 默认 API 基础 URL
+@baseUrl = http://localhost:8000/api/v1
+
+### ============================================
+### Tags API 测试
+### ============================================
+
+### 1. 获取所有标签（分页）
+GET {{baseUrl}}/tags?page=1&page_size=20
+Content-Type: application/json
+
+### 2. 获取所有标签（不分页）
+GET {{baseUrl}}/tags/all
+Content-Type: application/json
+
+### 3. 创建标签 - Bug
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "bug",
+  "color": "#EF4444"
+}
+
+### 4. 创建标签 - Feature
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "feature",
+  "color": "#10B981"
+}
+
+### 5. 创建标签 - Urgent
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "urgent",
+  "color": "#F59E0B"
+}
+
+### 6. 创建标签 - Documentation
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "documentation",
+  "color": "#3B82F6"
+}
+
+### 7. 获取单个标签（需要替换 {tag_id}）
+GET {{baseUrl}}/tags/1
+Content-Type: application/json
+
+### 8. 删除标签（需要替换 {tag_id}，谨慎使用）
+# DELETE {{baseUrl}}/tags/1
+# Content-Type: application/json
+
+### ============================================
+### Tickets API 测试
+### ============================================
+
+### 9. 获取所有 Tickets（默认分页）
+GET {{baseUrl}}/tickets?page=1&page_size=20
+Content-Type: application/json
+
+### 10. 获取所有 Tickets（自定义分页）
+GET {{baseUrl}}/tickets?page=1&page_size=10
+Content-Type: application/json
+
+### 11. 获取待处理的 Tickets
+GET {{baseUrl}}/tickets?status=pending&page=1&page_size=20
+Content-Type: application/json
+
+### 12. 获取已完成的 Tickets
+GET {{baseUrl}}/tickets?status=completed&page=1&page_size=20
+Content-Type: application/json
+
+### 13. 获取所有状态的 Tickets
+GET {{baseUrl}}/tickets?status=all&page=1&page_size=20
+Content-Type: application/json
+
+### 14. 按标签过滤 Tickets（单个标签）
+GET {{baseUrl}}/tickets?tag_ids=1&page=1&page_size=20
+Content-Type: application/json
+
+### 15. 按标签过滤 Tickets（多个标签）
+GET {{baseUrl}}/tickets?tag_ids=1,2&page=1&page_size=20
+Content-Type: application/json
+
+### 16. 搜索 Tickets（按标题）
+GET {{baseUrl}}/tickets?search=登录&page=1&page_size=20
+Content-Type: application/json
+
+### 17. 组合查询：待处理 + 标签 + 搜索
+GET {{baseUrl}}/tickets?status=pending&tag_ids=1&search=bug&page=1&page_size=20
+Content-Type: application/json
+
+### 18. 创建 Ticket（无标签）
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+  "title": "修复登录功能",
+  "description": "用户无法正常登录系统"
+}
+
+### 19. 创建 Ticket（带单个标签）
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+  "title": "添加用户头像上传功能",
+  "description": "允许用户上传和修改个人头像",
+  "tag_ids": [2]
+}
+
+### 20. 创建 Ticket（带多个标签）
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+  "title": "紧急修复支付bug",
+  "description": "支付流程存在严重bug，需要立即修复",
+  "tag_ids": [1, 3]
+}
+
+### 21. 创建 Ticket（仅标题）
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+  "title": "更新API文档"
+}
+
+### 22. 获取单个 Ticket（需要替换 {ticket_id}）
+GET {{baseUrl}}/tickets/1
+Content-Type: application/json
+
+### 23. 更新 Ticket（需要替换 {ticket_id}）
+PUT {{baseUrl}}/tickets/1
+Content-Type: application/json
+
+{
+  "title": "修复登录功能（已更新）",
+  "description": "用户无法正常登录系统，已定位问题"
+}
+
+### 24. 更新 Ticket - 仅更新标题（需要替换 {ticket_id}）
+PUT {{baseUrl}}/tickets/1
+Content-Type: application/json
+
+{
+  "title": "修复登录功能（仅更新标题）"
+}
+
+### 25. 更新 Ticket - 仅更新描述（需要替换 {ticket_id}）
+PUT {{baseUrl}}/tickets/1
+Content-Type: application/json
+
+{
+  "description": "用户无法正常登录系统，问题已解决"
+}
+
+### 26. 完成 Ticket（需要替换 {ticket_id}）
+PATCH {{baseUrl}}/tickets/1/complete
+Content-Type: application/json
+
+### 27. 取消完成 Ticket（需要替换 {ticket_id}）
+PATCH {{baseUrl}}/tickets/1/uncomplete
+Content-Type: application/json
+
+### 28. 给 Ticket 添加标签（需要替换 {ticket_id} 和 {tag_id}）
+POST {{baseUrl}}/tickets/1/tags/2
+Content-Type: application/json
+
+### 29. 从 Ticket 移除标签（需要替换 {ticket_id} 和 {tag_id}）
+DELETE {{baseUrl}}/tickets/1/tags/2
+Content-Type: application/json
+
+### 30. 删除 Ticket（需要替换 {ticket_id}，谨慎使用）
+# DELETE {{baseUrl}}/tickets/1
+# Content-Type: application/json
+
+### ============================================
+### 错误场景测试
+### ============================================
+
+### 31. 获取不存在的 Ticket（404）
+GET {{baseUrl}}/tickets/99999
+Content-Type: application/json
+
+### 32. 获取不存在的 Tag（404）
+GET {{baseUrl}}/tags/99999
+Content-Type: application/json
+
+### 33. 创建重复名称的 Tag（400）
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "bug",
+  "color": "#FF0000"
+}
+
+### 34. 创建无效颜色的 Tag（400 - 验证失败）
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+  "name": "invalid-color",
+  "color": "red"
+}
+
+### 35. 创建空标题的 Ticket（400 - 验证失败）
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "空标题测试"
+}
+
+### 36. 创建不存在的标签关联的 Ticket（400）
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+  "title": "测试不存在的标签",
+  "description": "尝试关联不存在的标签",
+  "tag_ids": [99999]
+}
+
+### 37. 更新不存在的 Ticket（404）
+PUT {{baseUrl}}/tickets/99999
+Content-Type: application/json
+
+{
+  "title": "不存在的Ticket"
+}
+
+### 38. 完成不存在的 Ticket（404）
+PATCH {{baseUrl}}/tickets/99999/complete
+Content-Type: application/json
+
+### 39. 给不存在的 Ticket 添加标签（404）
+POST {{baseUrl}}/tickets/99999/tags/1
+Content-Type: application/json
+
+### 40. 给 Ticket 添加不存在的标签（404）
+POST {{baseUrl}}/tickets/1/tags/99999
+Content-Type: application/json
+
+### ============================================
+### 健康检查和根路径
+### ============================================
+
+### 41. 健康检查
+GET http://localhost:8000/health
+Content-Type: application/json
+
+### 42. 根路径
+GET http://localhost:8000/
+Content-Type: application/json
+
+### ============================================
+### 使用说明
+### ============================================
+### 
+### 1. 确保后端服务已启动：uvicorn app.main:app --reload --port 8000
+### 2. 使用 REST Client 扩展（VS Code）打开此文件
+### 3. 点击每个请求上方的 "Send Request" 按钮运行测试
+### 4. 对于需要替换 ID 的请求，请先运行创建请求获取实际 ID
+### 5. 建议按顺序执行：
+###    - 先创建标签（请求 3-6）
+###    - 再创建 Tickets（请求 18-21）
+###    - 然后测试查询、更新、状态变更等操作
+### 6. 删除操作（请求 8, 30）默认已注释，需要时取消注释
+### 
+### 变量说明：
+### - {{baseUrl}} = http://localhost:8000/api/v1
+### - {ticket_id} 需要替换为实际的 Ticket ID
+### - {tag_id} 需要替换为实际的 Tag ID
+### 
+### ============================================
+

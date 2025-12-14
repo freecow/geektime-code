@@ -18,3 +18,23 @@
 ## phased implementation
 
 按照./specs/0002-implementation-plan.md，完整实现这个项目的phase 1代码。
+
+现在开发phase 2的全部功能
+
+帮我根据rest client撰写一个test.rest文件，里面包含对所有支持的API的测试。
+
+## seed sql
+添加一个seed.sql，里面放50个meaningful的 ticket和几十个tags（包含platform tag如ios, project tag如viking，功能性tag如autocomplete，等等）。要求seed文件正确可以通过psql执行。
+
+现在开发phase 3的所有任务
+
+构建phase 4的所有任务
+
+完成phase 5 & 6
+
+## precommit & gh action
+use pre-commit to init the config and setup precommit for python and typescript for this project, also setyp github action properly
+
+## 优化UI
+
+按照apple website的设计风格，think ultra hard，优化UI和UX
